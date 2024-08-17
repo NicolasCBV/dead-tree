@@ -1,0 +1,40 @@
+name: Publish on NPM
+
+on:
+  release:
+    types: [published]
+
+jobs:
+    publish:
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v4
+        - uses: pnpm/action-setup@v4
+          with:
+            version: 9
+
+        - name: Install Node.js
+          uses: actions/setup-node@v4
+          with:
+            node-version: 21.x
+            cache: "pnpm"
+            registry-url: 'https://registry.npmjs.org'
+
+        - name: Run tests
+          run: pnpm run test
+
+        - uses: coverallsapp/github-action@v2
+          name: Coveralls
+          with:
+            github-token: ${{ secrets.GITHUB_TOKEN }}
+
+        - name: Start build
+          run: |
+            pnpm install --frozen-lockfile
+            pnpm run typecheck
+            pnpm run build
+
+        - name: Publish to npm
+          run: pnpm publish --access public --git-checks=false
+          env:
+            NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

@@ -1,10 +1,29 @@
 {
-  "name": "tree",
-  "version": "1.0.0",
-  "description": "",
+  "name": "dead-tree",
+  "version": "0.0.0",
   "main": "index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "private": false,
+  "license": "MIT",
+  "author": "Nícolas Basilio",
+  "description": "NPM package fully dedicated to handle with AVL trees on the most optimized way",
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": ["dist", "LICENSE"],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NicolasCBV/dead-tree"
+  },
+  "keywords": [
+    "avl", "tree", "coroutine", "datatype",
+    "type", "binary tree", "fast", "optimize",
+    "speed"
+  ],
   "scripts": {
-    "build": "tsc -p . --noEmit && swc ./lib --config-file ./.swcrc.json -d ./dist",
+    "typecheck": "tsc -p . --noEmit",
+    "build": "tsup ./lib/index.ts -d ./dist --format cjs,esm --dts --minify",
     "format": "prettier --write",
     "lint": "eslint lib",
     "lint:fix": "eslint --fix",
@@ -27,8 +46,6 @@
   "devDependencies": {
     "@commitlint/config-conventional": "^19.2.2",
     "@eslint/js": "^9.9.0",
-    "@swc/cli": "^0.4.0",
-    "@swc/core": "^1.7.11",
     "@types/jest": "^29.5.12",
     "commitizen": "^4.3.0",
     "commitlint": "^19.4.0",
@@ -43,6 +60,7 @@
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.5.4",
-    "typescript-eslint": "^8.1.0"
+    "typescript-eslint": "^8.1.0",
+    "tsup": "^8.2.4"
   }
 }

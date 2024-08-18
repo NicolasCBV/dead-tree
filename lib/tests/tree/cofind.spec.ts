@@ -6,7 +6,6 @@ describe('iterate method tests', () => {
 		const tree = new AVLTree<number>({
 			comparator: new NumberComparator(),
 		});
-		console.log(tree);
 		for (let i = 0; i < 16; i++) {
 			tree.push(i);
 		}

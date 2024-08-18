@@ -3,9 +3,29 @@ import { TreeNode } from './nodes/TreeNode';
 import { DeadTreeError } from '@lib/errors/DeadTreeError';
 import { IRemovedNodeContext } from '@lib/types/IRemovedNodeContext';
 
+/**
+ * Interface used on AVLTree<T> class constructor
+ *
+ * @template T Any non nullable data
+ **/
 export interface IAVLTree<T> {
+	/**
+	 * Implementation of IComparator<T> to navigate through nodes
+	 * @type {IComparator<T>}
+	 **/
 	comparator: IComparator<T>;
+
+	/**
+	 * Set the behaviour iteration used on iteration protocol
+	 * @type {'pre-order' | 'post-order' | 'in-order'}
+	 * @default 'in-order'
+	 **/
 	behavior?: 'pre-order' | 'post-order' | 'in-order';
+
+	/**
+	 * Pre-defined data to be loaded on tree as node
+	 * @type {Iterable<NonNullable<T>>}
+	 **/
 	data?: Iterable<NonNullable<T>>;
 }
 
@@ -15,6 +35,10 @@ export class AVLTree<T> {
 	protected comparator: IComparator<T>;
 	protected readonly behavior: 'pre-order' | 'post-order' | 'in-order';
 
+	/**
+	 * Instantiate a new AVL Tree
+	 * @param {IAVLTree<T>} args - Parameters of AVL Tree
+	 **/
 	constructor({ comparator, behavior = 'in-order', data }: IAVLTree<T>) {
 		this.root = null;
 		this.comparator = comparator;
@@ -34,26 +58,32 @@ export class AVLTree<T> {
 		}
 	}
 
+	/** Returns the root node */
 	getRoot() {
 		return this.root;
 	}
 
+	/** Represents the height of tree */
 	get height() {
 		return this.getHeight(this.root);
 	}
 
+	/** Represents how many nodes are present on the tree */
 	get length() {
 		return this._length;
 	}
 
+	/** Calculates the height of a node, if the node is a nullable value, it returns 0, if not, it returns x >= 1 */
 	getHeight(n?: TreeNode<T> | null) {
 		return n ? n.height : 0;
 	}
 
+	/** Calculates the balance factor of a node */
 	getBalanceFactor(node: TreeNode<T>) {
 		return this.getHeight(node.left) - this.getHeight(node.right);
 	}
 
+	/** Make a right rotation on node and your childs */
 	protected rightRotate(node: TreeNode<T>): TreeNode<T> {
 		const leftTreeNode = node.left;
 		const leftRightTreeNode = leftTreeNode!.right;
@@ -72,6 +102,7 @@ export class AVLTree<T> {
 		return leftTreeNode!;
 	}
 
+	/** Make a left rotation on node and your childs */
 	protected leftRotate(node: TreeNode<T>): TreeNode<T> {
 		const rightTreeNode = node.right;
 		const rightLeftTreeNode = rightTreeNode!.left;
@@ -90,6 +121,7 @@ export class AVLTree<T> {
 		return rightTreeNode!;
 	}
 
+	/** Insert a new node on the tree with recursive strategy */
 	protected insert(item: T, node?: TreeNode<T> | null): TreeNode<T> {
 		if (!node) {
 			this._length = ++this._length;
@@ -132,6 +164,7 @@ export class AVLTree<T> {
 		return node;
 	}
 
+	/** Reorganize node chains after removing operations, doing right or left rotations */
 	protected reorganizeNodeChainAfterRemoveOp(node: TreeNode<T>) {
 		node.height =
 			Math.max(this.getHeight(node.left), this.getHeight(node.right)) - 1;
@@ -158,6 +191,7 @@ export class AVLTree<T> {
 		return node;
 	}
 
+	/** Remove a node on the tree with recursive strategy */
 	protected remove(
 		item: T,
 		deletedNode: IRemovedNodeContext<T>,
@@ -178,6 +212,7 @@ export class AVLTree<T> {
 		return this.reorganizeNodeChainAfterRemoveOp(node);
 	}
 
+	/** Traverse on the tree with recursive strategy */
 	protected traverse(item: T, node?: TreeNode<T> | null): TreeNode<T> | null {
 		if (!node) return null;
 
@@ -194,6 +229,7 @@ export class AVLTree<T> {
 		return searchedTreeNode;
 	}
 
+	/** Traverse on the tree with co-routine strategy */
 	protected *cotraverse(
 		item: T,
 		node?: TreeNode<T> | null,
@@ -217,6 +253,7 @@ export class AVLTree<T> {
 		}
 	}
 
+	/** Iterate through the tree with co-routine strategy and post-order iteration strategy */
 	*postOrderTraverse(node: TreeNode<T>): Generator<TreeNode<T>> {
 		if (!node) return null;
 
@@ -229,6 +266,7 @@ export class AVLTree<T> {
 		yield node;
 	}
 
+	/** Iterate through the tree with the co-routine strategy and pre-order iteration strategy */
 	*preOrderTraverse(node: TreeNode<T>): Generator<TreeNode<T>> {
 		if (!node) return null;
 
@@ -241,6 +279,7 @@ export class AVLTree<T> {
 		if (rightHeight !== 0) yield* this.preOrderTraverse(node.right!);
 	}
 
+	/** Iterate through the tree with the co-routine strategy and in-order iteration strategy */
 	*inOrderTraverse(node: TreeNode<T>): Generator<TreeNode<T>> {
 		if (!node) return null;
 
@@ -253,6 +292,7 @@ export class AVLTree<T> {
 		if (rightHeight !== 0) yield* this.inOrderTraverse(node.right!);
 	}
 
+	/** Iterate through the tree with the co-routine strategy and with the defined behavior iteration strategy */
 	*[Symbol.iterator](): Generator<TreeNode<T>> {
 		if (!this.root) return;
 
@@ -267,26 +307,31 @@ export class AVLTree<T> {
 		return 'Binary AVL Tree Object';
 	}
 
+	/** Search through the tree by the specified node and with co-routine strategy */
 	cofind(item: T): Generator<TreeNode<T> | null> {
 		return this.cotraverse(item, this.root);
 	}
 
-	removeBy(item: T) {
+	/** Remove specified node and returns it, if it exist */
+	removeBy(item: T): TreeNode<T> | null {
 		const ctx: IRemovedNodeContext<T> = { affected: null };
 		this.root = this.remove(item, ctx, this.root);
 		this._length = --this._length;
 		return ctx.affected;
 	}
 
+	/** Clear all AVL Tree */
 	clear() {
 		this.root = null;
 		this._length = 0;
 	}
 
+	/** Search through the tree by the specified node and with recursive strategy */
 	findBy(item: T) {
 		return this.traverse(item, this.root);
 	}
 
+	/** Push a new node on the tree */
 	push(item: NonNullable<T>) {
 		if (item === null || item === undefined)
 			throw new DeadTreeError(
@@ -296,6 +341,7 @@ export class AVLTree<T> {
 		this.root = this.insert(item, this.root);
 	}
 
+	/** Insert a iterable collection of type NonNullable<T> on the tree */
 	put(data: Iterable<NonNullable<T>>) {
 		let length = 0;
 		for (const item of data) {
@@ -314,6 +360,7 @@ export class AVLTree<T> {
 		return item;
 	}
 
+	/** Get greatest node value */
 	max() {
 		return this.getMax(this.root);
 	}
@@ -328,6 +375,7 @@ export class AVLTree<T> {
 		return item;
 	}
 
+	/** Get lowestest node value */
 	min() {
 		return this.getMin(this.root);
 	}
@@ -350,6 +398,7 @@ export class AVLTree<T> {
 		return this.reorganizeNodeChainAfterRemoveOp(item);
 	}
 
+	/** Remove the lowest node and returns it, if it exist */
 	shift() {
 		const ctx: IRemovedNodeContext<T> = { affected: null };
 		this.root = this.removeLowestNode(ctx, this.root);
@@ -375,6 +424,7 @@ export class AVLTree<T> {
 		return this.reorganizeNodeChainAfterRemoveOp(item);
 	}
 
+	/** Remove the greatest node and returns it, if it exist */
 	pop() {
 		const ctx: IRemovedNodeContext<T> = { affected: null };
 		this.root = this.removeGreatestNode(ctx, this.root);

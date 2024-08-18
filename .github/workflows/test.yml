@@ -3,7 +3,7 @@ name: CI - Tests
 on:
   push:
     branches: 
-      - "!main"
+      - "**"
 
 jobs:
   tests:
@@ -11,7 +11,7 @@ jobs:
     strategy:
       matrix:
         os: [windows-latest, macos-latest, ubuntu-latest]
-        node: [12.x, 14.x, 16.x, 18.x, 20.x, 21.x]
+        node: [18.x, 20.x, 21.x, 22.x]
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4

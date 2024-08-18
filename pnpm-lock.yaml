@@ -7,10 +7,6 @@ settings:
 importers:
 
   .:
-    dependencies:
-      tsup:
-        specifier: ^8.2.4
-        version: 8.2.4(@swc/core@1.7.11)(jiti@1.21.6)(typescript@5.5.4)(yaml@2.5.0)
     devDependencies:
       '@commitlint/config-conventional':
         specifier: ^19.2.2
@@ -57,6 +53,9 @@ importers:
       tsconfig-paths:
         specifier: ^4.2.0
         version: 4.2.0
+      tsup:
+        specifier: ^8.2.4
+        version: 8.2.4(@swc/core@1.7.11)(jiti@1.21.6)(typescript@5.5.4)(yaml@2.5.0)
       typescript:
         specifier: ^5.5.4
         version: 5.5.4

@@ -16,7 +16,7 @@ export interface IAVLTree<T> {
 	comparator: IComparator<T>;
 
 	/**
-	 * Set the behaviour iteration used on iteration protocol
+	 * Set the behavior iteration used on iteration protocol
 	 * @type {'pre-order' | 'post-order' | 'in-order'}
 	 * @default 'in-order'
 	 **/

@@ -11,14 +11,23 @@
   "publishConfig": {
     "access": "public"
   },
-  "files": ["dist", "LICENSE"],
+  "files": [
+    "dist",
+    "LICENSE"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/NicolasCBV/dead-tree"
   },
   "keywords": [
-    "avl", "tree", "coroutine", "datatype",
-    "type", "binary tree", "fast", "optimize",
+    "avl",
+    "tree",
+    "coroutine",
+    "datatype",
+    "type",
+    "binary tree",
+    "fast",
+    "optimize",
     "speed"
   ],
   "scripts": {
@@ -46,6 +55,7 @@
   "devDependencies": {
     "@commitlint/config-conventional": "^19.2.2",
     "@eslint/js": "^9.9.0",
+    "@types/benchmark": "^2.1.5",
     "@types/jest": "^29.5.12",
     "commitizen": "^4.3.0",
     "commitlint": "^19.4.0",
@@ -59,8 +69,9 @@
     "ts-jest": "^29.2.4",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
+    "tsup": "^8.2.4",
     "typescript": "^5.5.4",
     "typescript-eslint": "^8.1.0",
-    "tsup": "^8.2.4"
+    "benchmark": "^2.1.4"
   }
 }

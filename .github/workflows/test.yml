@@ -2,9 +2,10 @@ name: CI - Tests
 
 on:
   push:
+    paths:
+      - lib/**
     branches: 
       - "**"
-      - "!main"
 
 jobs:
   tests:
@@ -30,4 +31,9 @@ jobs:
 
       - name: Run tests
         run: pnpm run test
+
+      - uses: coverallsapp/github-action@v2
+        name: Coveralls
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 

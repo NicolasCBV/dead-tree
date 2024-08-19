@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/NicolasCBV/dead-tree/compare/v1.0.0...v1.1.0) (2024-08-19)
+
+
+### Features
+
+* add more abstract iteration methods ([db1b7f4](https://github.com/NicolasCBV/dead-tree/commit/db1b7f47c6c00637aeb1c07c0026626acce71e61))
+
 ## 1.0.0 (2024-08-19)
 
 

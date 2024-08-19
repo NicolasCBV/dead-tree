@@ -4,4 +4,3 @@
 * [Comparators](comparators.md)
 * [How iteration works](iteration.md)
 * [Coroutines](coroutines.md)
-* [Changelog](changelog.md)

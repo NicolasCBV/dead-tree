@@ -10,6 +10,8 @@ describe('shift method test', () => {
 		tree.push(1);
 		tree.push(4);
 		tree.push(5);
+
+		expect(tree.length).toBe(4);
 		expect(tree.getHeight(tree.getRoot())).toBe(3);
 		expect(tree.getRoot()?.item).toBe(3);
 
@@ -35,5 +37,7 @@ describe('shift method test', () => {
 
 		const deletedNode = tree.findBy(1);
 		expect(deletedNode).toBeNull();
+
+		expect(tree.length).toBe(3);
 	});
 });

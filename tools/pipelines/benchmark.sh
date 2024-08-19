@@ -13,19 +13,19 @@ for i in ${collection_targets[@]}; do
 	echo -e "${INFO_FLAG} Collection target is ${i}"
 
 	echo -e "${INFO_FLAG} Running iteration.bench.js"
-	COLLECTION_TARGET=collection_target \
+	COLLECTION_TARGET=$i \
 		node ./dist/iteration.bench.js
 
 	echo -e "${INFO_FLAG} Running delete.bench.js"
-	COLLECTION_TARGET=collection_target \
+	COLLECTION_TARGET=$i \
 		node ./dist/delete.bench.js
 
 	echo -e "${INFO_FLAG} Running insert.bench.js"
-	COLLECTION_TARGET=collection_target \
+	COLLECTION_TARGET=$i \
 		node ./dist/insert.bench.js
 
 	echo -e "${INFO_FLAG} Running search.bench.js"
-	COLLECTION_TARGET=collection_target \
+	COLLECTION_TARGET=$i \
 		node ./dist/search.bench.js
 	echo -e "\n===========================\n"
 done

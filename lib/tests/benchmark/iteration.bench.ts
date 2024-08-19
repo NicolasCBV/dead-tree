@@ -25,8 +25,6 @@ suite
 		const iter = tree.inOrderTraverse(tree.getRoot()!);
 		let next = iter.next();
 		while (!next.done) {
-			const node = next.value;
-			console.log(node.item);
 			next = iter.next();
 		}
 	})
@@ -34,8 +32,6 @@ suite
 		const iter = tree.preOrderTraverse(tree.getRoot()!);
 		let next = iter.next();
 		while (!next.done) {
-			const node = next.value;
-			console.log(node.item);
 			next = iter.next();
 		}
 	})
@@ -43,8 +39,6 @@ suite
 		const iter = tree.postOrderTraverse(tree.getRoot()!);
 		let next = iter.next();
 		while (!next.done) {
-			const node = next.value;
-			console.log(node.item);
 			next = iter.next();
 		}
 	})

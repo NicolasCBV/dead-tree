@@ -10,6 +10,8 @@ describe('pop method test', () => {
 		tree.push(3);
 		tree.push(6);
 		tree.push(4);
+
+		expect(tree.length).toBe(4);
 		expect(tree.getHeight(tree.getRoot())).toBe(3);
 		expect(tree.getRoot()?.item).toBe(5);
 
@@ -35,5 +37,7 @@ describe('pop method test', () => {
 
 		const deletedNode = tree.findBy(6);
 		expect(deletedNode).toBeNull();
+
+		expect(tree.length).toBe(3);
 	});
 });

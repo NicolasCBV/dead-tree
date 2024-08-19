@@ -5,7 +5,6 @@ import { Suite, Event } from 'benchmark';
 const suite = new Suite();
 
 const collectionTarget = parseInt(process.env.COLLECTION_TARGET!);
-
 const tree = new AVLTree<number>({
 	comparator: new NumberComparator(),
 });
@@ -17,7 +16,7 @@ for (let i = 0; i < collectionTarget; i++) {
 
 suite
 	.add('AVL Tree delete', () => {
-		tree.removeBy(collectionTarget - 1);
+		for (let i = 0; i < collectionTarget; ++i) tree.removeBy(i);
 	})
 	.add('Array delete', () => {
 		const i = arr.findIndex((item) => item === collectionTarget - 1);

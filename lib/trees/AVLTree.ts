@@ -84,7 +84,7 @@ export class AVLTree<T> {
 	}
 
 	/** Make a right rotation on node and your childs */
-	protected rightRotate(node: TreeNode<T>): TreeNode<T> {
+	private rightRotate(node: TreeNode<T>): TreeNode<T> {
 		const leftTreeNode = node.left;
 		const leftRightTreeNode = leftTreeNode!.right;
 
@@ -103,7 +103,7 @@ export class AVLTree<T> {
 	}
 
 	/** Make a left rotation on node and your childs */
-	protected leftRotate(node: TreeNode<T>): TreeNode<T> {
+	private leftRotate(node: TreeNode<T>): TreeNode<T> {
 		const rightTreeNode = node.right;
 		const rightLeftTreeNode = rightTreeNode!.left;
 
@@ -165,9 +165,9 @@ export class AVLTree<T> {
 	}
 
 	/** Reorganize node chains after removing operations, doing right or left rotations */
-	protected reorganizeNodeChainAfterRemoveOp(node: TreeNode<T>) {
+	private reorganizeNodeChainAfterRemoveOp(node: TreeNode<T>) {
 		node.height =
-			Math.max(this.getHeight(node.left), this.getHeight(node.right)) - 1;
+			Math.max(this.getHeight(node.left), this.getHeight(node.right)) + 1;
 		const balance = this.getBalanceFactor(node);
 
 		if (balance > 1) {
@@ -191,6 +191,51 @@ export class AVLTree<T> {
 		return node;
 	}
 
+	/** Rebalance all affected subtrees after remove method execution */
+	private internalRebalanceAfterRemotion(
+		deletedNode: IRemovedNodeContext<T>,
+		node?: TreeNode<T> | null,
+		internalRebalanceOnly?: 'always-right' | 'always-left',
+	): TreeNode<T> | null {
+		if (!node) return null;
+
+		if (node.right && internalRebalanceOnly === 'always-right') {
+			node.right = this.internalRebalanceAfterRemotion(
+				deletedNode,
+				node.right,
+				'always-right',
+			);
+		} else if (node.left && internalRebalanceOnly === 'always-left') {
+			node.left = this.internalRebalanceAfterRemotion(
+				deletedNode,
+				node.left,
+				'always-left',
+			);
+		}
+
+		if (!deletedNode.substituteNode) {
+			deletedNode.substituteNode = node;
+			deletedNode!.substituteNode!.right =
+				deletedNode.substituteNode !== deletedNode.rightChild!
+					? deletedNode.rightChild!
+					: null;
+			deletedNode!.substituteNode!.left =
+				deletedNode.substituteNode !== deletedNode.leftChild!
+					? deletedNode.leftChild!
+					: null;
+
+			deletedNode.substituteNode.height =
+				1 +
+				Math.max(
+					this.getHeight(deletedNode.substituteNode.left),
+					this.getHeight(deletedNode.substituteNode.right),
+				);
+			return null;
+		}
+
+		return this.reorganizeNodeChainAfterRemoveOp(node);
+	}
+
 	/** Remove a node on the tree with recursive strategy */
 	protected remove(
 		item: T,
@@ -206,6 +251,25 @@ export class AVLTree<T> {
 			node.right = this.remove(item, deletedNode, node.right);
 		} else {
 			deletedNode.affected = node;
+			deletedNode.rightChild = node.right;
+			deletedNode.leftChild = node.left;
+			this._length = --this._length;
+			if (deletedNode.leftChild) {
+				this.internalRebalanceAfterRemotion(
+					deletedNode,
+					deletedNode.leftChild,
+					'always-right',
+				);
+				return deletedNode.substituteNode ?? null;
+			} else if (deletedNode.rightChild) {
+				this.internalRebalanceAfterRemotion(
+					deletedNode,
+					deletedNode.rightChild,
+					'always-left',
+				);
+				return deletedNode.substituteNode ?? null;
+			}
+
 			return null;
 		}
 
@@ -316,7 +380,6 @@ export class AVLTree<T> {
 	removeBy(item: T): TreeNode<T> | null {
 		const ctx: IRemovedNodeContext<T> = { affected: null };
 		this.root = this.remove(item, ctx, this.root);
-		this._length = --this._length;
 		return ctx.affected;
 	}
 
@@ -392,6 +455,7 @@ export class AVLTree<T> {
 			item.left = this.removeLowestNode(deletedNode, item.left);
 		} else {
 			deletedNode.affected = item;
+			this._length = --this._length;
 			return null;
 		}
 
@@ -402,7 +466,6 @@ export class AVLTree<T> {
 	shift() {
 		const ctx: IRemovedNodeContext<T> = { affected: null };
 		this.root = this.removeLowestNode(ctx, this.root);
-		this._length = --this._length;
 		return ctx.affected;
 	}
 
@@ -418,6 +481,7 @@ export class AVLTree<T> {
 			item.right = this.removeGreatestNode(deletedNode, item.right);
 		} else {
 			deletedNode.affected = item;
+			this._length = --this._length;
 			return null;
 		}
 
@@ -428,7 +492,6 @@ export class AVLTree<T> {
 	pop() {
 		const ctx: IRemovedNodeContext<T> = { affected: null };
 		this.root = this.removeGreatestNode(ctx, this.root);
-		this._length = --this._length;
 		return ctx.affected;
 	}
 }

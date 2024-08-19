@@ -1,5 +1,6 @@
 * [Home](/)
 * [Quickstart](quickstart.md)
+* [Benchmark](benchmark.md)
 * [Comparators](comparators.md)
 * [How iteration works](iteration.md)
 * [Coroutines](coroutines.md)

@@ -27,9 +27,11 @@ In this [section](iteration), you learned how iteration works on AVL and also un
 ## How to use co-routines on iteration processes
 
 In Dead Tree we have three most important types of co-routine functions:
-- postOrderTraverse: Will iterate through your tree with a post-order iteration strategy.
-- preOrderTraverse: Will iterate through your tree with a pre-order iteration strategy.
-- inOrderTraverse: Will iterate through your tree with a in-order iteration strategy.
+- postOrderTraverseByRoot: Will iterate through your tree with a post-order iteration strategy.
+- preOrderTraverseByRoot: Will iterate through your tree with a pre-order iteration strategy.
+- inOrderTraverseByRoot: Will iterate through your tree with a in-order iteration strategy.
+
+> You can also start your iteration process on a specific node by the name of these methods without "ByRoot", like preOrderTraverse.
 
 To iterate with every strategy on each tree node, you will always follow the same example:
 ```javascript

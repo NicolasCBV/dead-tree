@@ -50,6 +50,24 @@ describe('Insert operations methods tests', () => {
 		expect(tree.length).toBe(16);
 	});
 
+	it('should be able to create a tree with pre loaded data object - inverted insertion order', () => {
+		const arr: number[] = [];
+		for (let i = 16; i > 0; i--) arr.push(i);
+
+		const tree = new AVLTree<number>({
+			comparator: new NumberComparator(),
+			data: arr,
+			behavior: 'in-order',
+		});
+
+		let i = 1;
+		for (const node of tree) {
+			expect(node.item).toBe(i);
+			i = ++i;
+		}
+		expect(tree.length).toBe(16);
+	});
+
 	it('should be able to create a tree and load the array', () => {
 		const tree = new AVLTree<number>({
 			comparator: new NumberComparator(),

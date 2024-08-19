@@ -293,30 +293,6 @@ export class AVLTree<T> {
 		return searchedTreeNode;
 	}
 
-	/** Traverse on the tree with co-routine strategy */
-	protected *cotraverse(
-		item: T,
-		node?: TreeNode<T> | null,
-	): Generator<TreeNode<T> | null> {
-		yield node ?? null;
-
-		let cursor: TreeNode<T> | null = node ?? null;
-		while (cursor) {
-			const c = this.comparator.compare(item, cursor.item);
-			if (c <= -1) {
-				yield cursor.left;
-				cursor = cursor.left;
-			} else if (c >= 1) {
-				yield cursor.right;
-				cursor = cursor.right;
-			} else {
-				yield cursor;
-			}
-
-			if (!cursor?.left && !cursor?.right) return;
-		}
-	}
-
 	/** Iterate through the tree with co-routine strategy and post-order iteration strategy */
 	*postOrderTraverse(node: TreeNode<T>): Generator<TreeNode<T>> {
 		if (!node) return null;
@@ -328,6 +304,10 @@ export class AVLTree<T> {
 		if (rightHeight !== 0) yield* this.postOrderTraverse(node.right!);
 
 		yield node;
+	}
+
+	postOrderTraverseByRoot(): Generator<TreeNode<T>> {
+		return this.postOrderTraverse(this.root!);
 	}
 
 	/** Iterate through the tree with the co-routine strategy and pre-order iteration strategy */
@@ -343,6 +323,10 @@ export class AVLTree<T> {
 		if (rightHeight !== 0) yield* this.preOrderTraverse(node.right!);
 	}
 
+	preOrderTraverseByRoot(): Generator<TreeNode<T>> {
+		return this.preOrderTraverse(this.root!);
+	}
+
 	/** Iterate through the tree with the co-routine strategy and in-order iteration strategy */
 	*inOrderTraverse(node: TreeNode<T>): Generator<TreeNode<T>> {
 		if (!node) return null;
@@ -354,6 +338,10 @@ export class AVLTree<T> {
 		yield node;
 
 		if (rightHeight !== 0) yield* this.inOrderTraverse(node.right!);
+	}
+
+	inOrderTraverseByRoot(): Generator<TreeNode<T>> {
+		return this.inOrderTraverse(this.root!);
 	}
 
 	/** Iterate through the tree with the co-routine strategy and with the defined behavior iteration strategy */
@@ -371,9 +359,30 @@ export class AVLTree<T> {
 		return 'Binary AVL Tree Object';
 	}
 
+	/** Traverse on the tree with co-routine strategy */
+	protected *cotraverse(item: T, node: TreeNode<T>): Generator<TreeNode<T>> {
+		let cursor: TreeNode<T> = node;
+		while (cursor) {
+			const c = this.comparator.compare(item, cursor.item);
+			if (c <= -1 && cursor.left) {
+				yield cursor.left;
+				cursor = cursor.left;
+			} else if (c >= 1 && cursor.right) {
+				yield cursor.right;
+				cursor = cursor.right;
+			} else {
+				yield cursor;
+			}
+
+			if (!cursor?.left && !cursor?.right) return;
+		}
+	}
+
 	/** Search through the tree by the specified node and with co-routine strategy */
-	cofind(item: T): Generator<TreeNode<T> | null> {
-		return this.cotraverse(item, this.root);
+	*cofind(item: T): Generator<TreeNode<T>> {
+		if (!this.root) return;
+		yield this.root;
+		yield* this.cotraverse(item, this.root);
 	}
 
 	/** Remove specified node and returns it, if it exist */

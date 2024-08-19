@@ -1,7 +1,25 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { NumberComparator } from '@lib/comparators/NumberComparator';
 import { AVLTree } from '@lib/trees/AVLTree';
 
 describe('remove method test', () => {
+	it('should clear all the tree', () => {
+		const tree = new AVLTree<number>({
+			comparator: new NumberComparator(),
+		});
+		for (let i = 0; i < 50; i++) {
+			tree.push(i);
+		}
+		tree.clear();
+		for (const _ of tree) {
+			expect(() => {
+				throw Error('Tree is was not cleared!');
+			}).not.toThrow(Error);
+		}
+		expect(tree.getRoot()).toBeNull();
+		expect(tree.height).toBe(0);
+		expect(tree.length).toBe(0);
+	});
 	it('should grant that no child node are lost if one node is removed', () => {
 		const tree = new AVLTree<number>({
 			comparator: new NumberComparator(),

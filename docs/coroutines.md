@@ -41,7 +41,7 @@ for (let i = 0; i < 16; i++) {
 	tree.push(i);
 }
 
-const iter = tree.inOrderTraverse()
+const iter = tree.inOrderTraverseByRoot()
 let next = iter.next()
 while(!next.done) {
 	const node = next.value

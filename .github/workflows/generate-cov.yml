@@ -1,8 +1,9 @@
-name: Publish on NPM
+name: Generate Coverage Report
 
 on:
-  release:
-    types: [published]
+  push:
+    branches:
+      - "main"
 
 jobs:
     publish:
@@ -23,12 +24,10 @@ jobs:
         - name: Install npm dependencies
           run: pnpm install --frozen-lockfile
 
-        - name: Start build
-          run: |
-            pnpm run typecheck
-            pnpm run build
+        - name: Run tests
+          run: pnpm run test:coverage
 
-        - name: Publish to npm
-          run: pnpm publish --access public --git-checks=false
-          env:
-            NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        - uses: coverallsapp/github-action@v2
+          name: Coveralls
+          with:
+            github-token: ${{ secrets.GITHUB_TOKEN }}

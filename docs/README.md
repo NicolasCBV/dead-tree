@@ -3,8 +3,8 @@
 </p>
 
 <p align="center">
-  <a href="https://coveralls.io/repos/github/NicolasCBV/dead-tree/badge.svg?branch=develop" target="_blank">
-    <img src="https://coveralls.io/repos/github/NicolasCBV/dead-tree/badge.svg?branch=develop" alt="coverage percentage" />
+  <a href="https://coveralls.io/repos/github/NicolasCBV/dead-tree/badge.svg?branch=main" target="_blank">
+    <img src="https://coveralls.io/repos/github/NicolasCBV/dead-tree/badge.svg?branch=main" alt="coverage percentage" />
   </a>
 
   <a href="https://img.shields.io/npm/v/dead-tree?color=success" target="_blank">

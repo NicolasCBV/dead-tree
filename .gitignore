@@ -1,3 +1,4 @@
 node_modules
 dist
 .vscode/_launch.example.json
+coverage

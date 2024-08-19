@@ -14,6 +14,12 @@ const config: Config = {
 	testRegex: '.*\\.spec\\.ts$',
 	testTimeout: 30000,
 
+	coveragePathIgnorePatterns: [
+		"\\.bench\\.ts$",
+		"lib/index.ts",
+		"jest.config.ts"
+	],
+
 	moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, {
 		prefix: '<rootDir>/',
 	}),

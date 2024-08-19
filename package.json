@@ -15,6 +15,7 @@
     "dist",
     "LICENSE"
   ],
+  "homepage": "https://nicolascbv.github.io/dead-tree/",
   "repository": {
     "type": "git",
     "url": "https://github.com/NicolasCBV/dead-tree"
@@ -39,7 +40,8 @@
     "prepare": "husky",
     "pre-commit": "lint-staged --allow-empty",
     "commit": "cz",
-    "test": "jest -c jest.config.ts"
+    "test": "jest -c jest.config.ts",
+    "test:coverage": "jest -c jest.config.ts --coverage"
   },
   "config": {
     "commitizen": {
@@ -57,6 +59,7 @@
     "@eslint/js": "^9.9.0",
     "@types/benchmark": "^2.1.5",
     "@types/jest": "^29.5.12",
+    "@types/node": "^22.4.1",
     "benchmark": "^2.1.4",
     "commitizen": "^4.3.0",
     "commitlint": "^19.4.0",

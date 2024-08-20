@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.1](https://github.com/NicolasCBV/dead-tree/compare/v1.1.0...v1.1.1) (2024-08-20)
+
+
+### Bug Fixes
+
+* cofind eternal search loop ([50ff96c](https://github.com/NicolasCBV/dead-tree/commit/50ff96c932edca5bab3b30686e26ecda5891d999))
+
 ## [1.1.0](https://github.com/NicolasCBV/dead-tree/compare/v1.0.0...v1.1.0) (2024-08-19)
 
 

@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.2](https://github.com/NicolasCBV/dead-tree/compare/v1.1.1...v1.1.2) (2024-08-20)
+
+
+### Bug Fixes
+
+* main package.json field ([b80330d](https://github.com/NicolasCBV/dead-tree/commit/b80330d90d18ce13f8a8648bee2fc5d1ee41a5aa))
+
 ## [1.1.1](https://github.com/NicolasCBV/dead-tree/compare/v1.1.0...v1.1.1) (2024-08-20)
 
 

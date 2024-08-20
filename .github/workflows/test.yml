@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - lib/**
+      - .github/workflows/test.yml
     branches: 
       - "**"
 

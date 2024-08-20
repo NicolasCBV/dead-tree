@@ -371,7 +371,7 @@ export class AVLTree<T> {
 				yield cursor.right;
 				cursor = cursor.right;
 			} else {
-				yield cursor;
+				return cursor;
 			}
 
 			if (!cursor?.left && !cursor?.right) return;
